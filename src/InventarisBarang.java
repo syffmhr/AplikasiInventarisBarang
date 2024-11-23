@@ -1,3 +1,22 @@
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,6 +34,8 @@ public class InventarisBarang extends javax.swing.JFrame {
      */
     public InventarisBarang() {
         initComponents();
+        
+        start();
     }
 
     /**
@@ -36,42 +57,42 @@ public class InventarisBarang extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        txtKode = new javax.swing.JTextField();
+        txtNama = new javax.swing.JTextField();
+        txtKategori = new javax.swing.JTextField();
+        txtJumlah = new javax.swing.JTextField();
+        txtKeterangan = new javax.swing.JTextField();
+        txtLokasi = new javax.swing.JTextField();
+        txtTahun = new javax.swing.JTextField();
+        btnTambah = new javax.swing.JButton();
+        btnUbah = new javax.swing.JButton();
+        btnBatal = new javax.swing.JButton();
+        btnHapus = new javax.swing.JButton();
+        btnEkspor = new javax.swing.JButton();
+        btnImpor = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabelBarang = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
-        jTextField7 = new javax.swing.JTextField();
-        jButton7 = new javax.swing.JButton();
+        txtCari = new javax.swing.JTextField();
+        btnCari = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Aplikasi Inventaris Barang Klinik", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 24))); // NOI18N
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Aplikasi Inventaris Barang Klinik", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 36))); // NOI18N
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Input Detail Barang", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
         jPanel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Kode Barang :");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jLabel1, gridBagConstraints);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("Nama Barang :");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -80,7 +101,7 @@ public class InventarisBarang extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jLabel2, gridBagConstraints);
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setText("Kategori :");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -89,7 +110,7 @@ public class InventarisBarang extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jLabel3, gridBagConstraints);
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("Jumlah :");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -98,7 +119,7 @@ public class InventarisBarang extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jLabel4, gridBagConstraints);
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel5.setText("Tahun Perolehan :");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -107,7 +128,7 @@ public class InventarisBarang extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jLabel5, gridBagConstraints);
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel6.setText("Keterangan :");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -116,7 +137,7 @@ public class InventarisBarang extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jLabel6, gridBagConstraints);
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel7.setText("Lokasi :");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -125,44 +146,49 @@ public class InventarisBarang extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jLabel7, gridBagConstraints);
 
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtKode.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 79;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jTextField1, gridBagConstraints);
+        jPanel1.add(txtKode, gridBagConstraints);
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtNama.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 79;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jTextField2, gridBagConstraints);
+        jPanel1.add(txtNama, gridBagConstraints);
 
-        jTextField3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtKategori.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 79;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jTextField3, gridBagConstraints);
+        jPanel1.add(txtKategori, gridBagConstraints);
 
-        jTextField4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtJumlah.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txtJumlah.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtJumlahKeyTyped(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 79;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jTextField4, gridBagConstraints);
+        jPanel1.add(txtJumlah, gridBagConstraints);
 
-        jTextField5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        txtKeterangan.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txtKeterangan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+                txtKeteranganActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -171,46 +197,54 @@ public class InventarisBarang extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 79;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jTextField5, gridBagConstraints);
+        jPanel1.add(txtKeterangan, gridBagConstraints);
 
-        jTextField6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtLokasi.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 79;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jTextField6, gridBagConstraints);
+        jPanel1.add(txtLokasi, gridBagConstraints);
+
+        txtTahun.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txtTahun.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTahunKeyTyped(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 79;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jTextField8, gridBagConstraints);
+        jPanel1.add(txtTahun, gridBagConstraints);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setText("Tambah");
+        btnTambah.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnTambah.setText("Tambah");
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton2.setText("Ubah");
+        btnUbah.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnUbah.setText("Ubah");
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton3.setText("Batal");
+        btnBatal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnBatal.setText("Batal");
 
-        jButton4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton4.setText("Hapus");
+        btnHapus.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnHapus.setText("Hapus");
 
-        jButton5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton5.setText("Ekspor");
+        btnEkspor.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnEkspor.setText("Ekspor");
 
-        jButton6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton6.setText("Impor");
+        btnImpor.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnImpor.setText("Impor");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Data Barang", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
         jPanel2.setLayout(new java.awt.BorderLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabelBarang.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tabelBarang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -221,23 +255,23 @@ public class InventarisBarang extends javax.swing.JFrame {
                 "NO", "Kode Barang", "Nama Barang", "Kategori", "Jumlah", "Tahun Perolehan", "Keterangan", "Lokasi"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabelBarang);
 
         jPanel2.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
-        jTextField7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtCari.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.ipadx = 148;
         gridBagConstraints.insets = new java.awt.Insets(7, 7, 7, 7);
-        jPanel4.add(jTextField7, gridBagConstraints);
+        jPanel4.add(txtCari, gridBagConstraints);
 
-        jButton7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton7.setText("Cari");
+        btnCari.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnCari.setText("Cari");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(7, 7, 7, 7);
-        jPanel4.add(jButton7, gridBagConstraints);
+        jPanel4.add(btnCari, gridBagConstraints);
 
         jPanel2.add(jPanel4, java.awt.BorderLayout.PAGE_START);
 
@@ -250,19 +284,19 @@ public class InventarisBarang extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnTambah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnHapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton5))
+                            .addComponent(btnUbah, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEkspor))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(btnImpor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnBatal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -275,14 +309,14 @@ public class InventarisBarang extends javax.swing.JFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2)
-                            .addComponent(jButton3))
+                            .addComponent(btnTambah)
+                            .addComponent(btnUbah)
+                            .addComponent(btnBatal))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton5)
-                            .addComponent(jButton6)
-                            .addComponent(jButton4))))
+                            .addComponent(btnEkspor)
+                            .addComponent(btnImpor)
+                            .addComponent(btnHapus))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -291,10 +325,240 @@ public class InventarisBarang extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+    private void txtKeteranganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtKeteranganActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_txtKeteranganActionPerformed
 
+    private void txtJumlahKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJumlahKeyTyped
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c) && c != java.awt.event.KeyEvent.VK_BACK_SPACE) {
+            evt.consume();
+            JOptionPane.showMessageDialog(this, "Masukkan jumlah berupa angka!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_txtJumlahKeyTyped
+
+    private void txtTahunKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTahunKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c) && c != java.awt.event.KeyEvent.VK_BACK_SPACE) {
+            evt.consume();
+            JOptionPane.showMessageDialog(this, "Masukkan tahun yang valid!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_txtTahunKeyTyped
+
+        private void loadBarang() {
+        DefaultTableModel tableModel = (DefaultTableModel) tabelBarang.getModel();
+        tableModel.setRowCount(0); 
+        try (ResultSet rs = Barang.getBarang()) {
+            while (rs != null && rs.next()) {
+                tableModel.addRow(new Object[]{
+                        rs.getInt("id"),
+                        rs.getString("kode"),
+                        rs.getString("nama"),
+                        rs.getString("kategori"),
+                        rs.getString("jumlah"),
+                        rs.getString("tahun"),
+                        rs.getString("keterangan"),
+                        rs.getString("lokasi")
+                });
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private class addBarangListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String kode = txtKode.getText();
+            String nama = txtNama.getText();
+            String kategori = txtKategori.getText();
+            String jumlah = txtJumlah.getText();
+            String tahun = txtTahun.getText();
+            String keterangan = txtKeterangan.getText();
+            String lokasi = txtLokasi.getText();
+            if (!kode.isEmpty() && !nama.isEmpty() && !kategori.isEmpty()) {
+            Barang barang = new Barang(kode, nama, kategori, jumlah, tahun, keterangan, lokasi);
+            Barang.tambahBarang(barang);
+            loadBarang();
+            bersihkanField();
+        } else {
+            JOptionPane.showMessageDialog(null, "Inputan tidak boleh kosong!");
+        }
+        }
+    }
+
+private class ubahBarangListener implements ActionListener {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        DefaultTableModel tableModel = (DefaultTableModel) tabelBarang.getModel();
+        int barisAktif = tabelBarang.getSelectedRow();
+        if (barisAktif >= 0) {
+            int id = Integer.parseInt(tableModel.getValueAt(barisAktif, 0).toString());
+            String kode = txtKode.getText();
+            String nama = txtNama.getText();
+            String kategori = txtKategori.getText();
+            String jumlah = txtJumlah.getText();
+            String tahun = txtTahun.getText();
+            String keterangan = txtKeterangan.getText();
+            String lokasi = txtLokasi.getText();
+
+            if (!kode.isEmpty() && !nama.isEmpty() && !kategori.isEmpty()) {
+                Barang barang = new Barang(kode, nama, kategori, jumlah, tahun, keterangan, lokasi);
+                Barang.ubahBarang(id, barang);
+                loadBarang();
+                bersihkanField();
+            } else {
+                JOptionPane.showMessageDialog(null, "Inputan tidak boleh kosong!");
+            }
+        }
+    }
+}
+
+private class hapusBarangListener implements ActionListener {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        DefaultTableModel tableModel = (DefaultTableModel) tabelBarang.getModel();
+        int barisAktif = tabelBarang.getSelectedRow();
+        if (barisAktif >= 0) {
+            int id = Integer.parseInt(tableModel.getValueAt(barisAktif, 0).toString());
+            Barang.hapusBarang(id);
+            loadBarang();
+            bersihkanField();
+        } else {
+            JOptionPane.showMessageDialog(null, "Pilih data yang ingin dihapus!");
+        }
+    }
+}
+
+
+    private class cariBarangListener implements ActionListener {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        DefaultTableModel tableModel = (DefaultTableModel) tabelBarang.getModel();
+        String query = txtCari.getText();
+        tableModel.setRowCount(0); // Reset tabel
+        try (ResultSet rs = Barang.cariBarang(query)) {
+            while (rs != null && rs.next()) {
+                tableModel.addRow(new Object[]{
+                        rs.getInt("id"),
+                        rs.getString("kode"),
+                        rs.getString("nama"),
+                        rs.getString("kategori"),
+                        rs.getString("jumlah"),
+                        rs.getString("tahun"),
+                        rs.getString("keterangan"),
+                        rs.getString("lokasi")
+                });
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Gagal mencari data barang!");
+        }
+    }
+}
+    
+    private class batalBarangListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            bersihkanField();
+        }
+    }
+    
+    private class eksporBarangListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            File file = new File("barang.txt"); // Nama default file ekspor
+        try {
+            if (!file.exists()) { // Jika file tidak ada, buat file baru
+                file.createNewFile();
+                JOptionPane.showMessageDialog(null, "File barang.txt berhasil dibuat.");
+            }
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                DefaultTableModel tableModel = (DefaultTableModel) tabelBarang.getModel();
+                for (int i = 0; i < tableModel.getRowCount(); i++) {
+                    for (int j = 0; j < tableModel.getColumnCount(); j++) {
+                        writer.write(tableModel.getValueAt(i, j).toString());
+                        if (j < tableModel.getColumnCount() - 1) {
+                            writer.write(","); // Pisahkan dengan koma
+                        }
+                    }
+                    writer.newLine(); // Pindah ke baris berikutnya
+                }
+            }
+            JOptionPane.showMessageDialog(null, "Data berhasil diekspor ke barang.txt!");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Gagal mengekspor data!");
+        }
+    }
+}
+
+    private class imporBarangListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            File file = new File("barang.txt"); // Nama default file impor
+        try {
+            if (!file.exists()) { // Jika file tidak ada
+                JOptionPane.showMessageDialog(null, "File barang.txt tidak ditemukan.");
+                return;
+            }
+
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                DefaultTableModel tableModel = (DefaultTableModel) tabelBarang.getModel();
+                tableModel.setRowCount(0); // Hapus data lama di tabel
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] data = line.split(","); // Pisahkan data berdasarkan koma
+                    tableModel.addRow(data); // Tambahkan data ke tabel
+                }
+            }
+            JOptionPane.showMessageDialog(null, "Data berhasil diimpor dari barang.txt!");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Gagal mengimpor data!");
+        }
+    }
+}
+
+private void bersihkanField() {
+    txtKode.setText("");
+    txtNama.setText("");
+    txtKategori.setText("");
+    txtJumlah.setText("");
+    txtTahun.setText("");
+    txtKeterangan.setText("");
+    txtLokasi.setText("");
+    tabelBarang.clearSelection();
+}
+    
+    private void start() {
+    btnTambah.addActionListener(new addBarangListener());
+    btnUbah.addActionListener(new ubahBarangListener());
+    btnHapus.addActionListener(new hapusBarangListener());
+    btnCari.addActionListener(new cariBarangListener());
+    btnEkspor.addActionListener(new eksporBarangListener());
+    btnImpor.addActionListener(new imporBarangListener());
+    btnBatal.addActionListener(new batalBarangListener());
+    
+    tabelBarang.getSelectionModel().addListSelectionListener(e -> {
+        DefaultTableModel tableModel = (DefaultTableModel) tabelBarang.getModel();
+        int barisAktif = tabelBarang.getSelectedRow();
+        if (barisAktif >= 0) {
+            txtKode.setText(tableModel.getValueAt(barisAktif, 1).toString());
+            txtNama.setText(tableModel.getValueAt(barisAktif, 2).toString());
+            txtKategori.setText(tableModel.getValueAt(barisAktif, 3).toString());
+            txtJumlah.setText(tableModel.getValueAt(barisAktif, 4).toString());
+            txtTahun.setText(tableModel.getValueAt(barisAktif, 5).toString());
+            txtKeterangan.setText(tableModel.getValueAt(barisAktif, 6).toString());
+            txtLokasi.setText(tableModel.getValueAt(barisAktif, 7).toString());
+        }
+    });
+
+    loadBarang();
+}
+    
     /**
      * @param args the command line arguments
      */
@@ -331,13 +595,13 @@ public class InventarisBarang extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
+    private javax.swing.JButton btnBatal;
+    private javax.swing.JButton btnCari;
+    private javax.swing.JButton btnEkspor;
+    private javax.swing.JButton btnHapus;
+    private javax.swing.JButton btnImpor;
+    private javax.swing.JButton btnTambah;
+    private javax.swing.JButton btnUbah;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -350,14 +614,14 @@ public class InventarisBarang extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
+    private javax.swing.JTable tabelBarang;
+    private javax.swing.JTextField txtCari;
+    private javax.swing.JTextField txtJumlah;
+    private javax.swing.JTextField txtKategori;
+    private javax.swing.JTextField txtKeterangan;
+    private javax.swing.JTextField txtKode;
+    private javax.swing.JTextField txtLokasi;
+    private javax.swing.JTextField txtNama;
+    private javax.swing.JTextField txtTahun;
     // End of variables declaration//GEN-END:variables
 }
