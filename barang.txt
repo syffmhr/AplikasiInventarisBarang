@@ -1,0 +1,2 @@
+9,A-02,Kursi,Furniture,15,2024,Baik,Ruang Tunggu
+10,A-03,Meja,Furniture,8,2023,Baik,Ruang Tunggu
